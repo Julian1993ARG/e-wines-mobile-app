@@ -15,7 +15,7 @@ export default function reducer (state = initialState, action) {
         ...state,
         user: action.payload
       }
-    case 'GET_PUBLICATIONS':
+    case 'GET_PUBLI_ALL':
       return {
         ...state,
         publications: action.payload

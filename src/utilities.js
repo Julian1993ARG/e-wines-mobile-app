@@ -2,9 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect } from 'react'
 
 const utils = {
-  URLAPI: 'https://e-winespf.herokuapp.com',
-  domain: 'dev-j3ib2f72vg6so0qf.us.auth0.com', // Auth0 domain
-  clienId: 'RQ6qlKEZ3nCqhxEfgeWEHK39bAuMbfE2' // Auth0 client id
+  URLAPI: 'https://e-winespf.herokuapp.com'
 }
 
 export default utils

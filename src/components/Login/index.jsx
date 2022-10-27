@@ -21,7 +21,7 @@ const Login = () => {
       setLoading(false)
     }
   }, [user])
-  const { values, handleChange, handleSubmit, errors, handleBlur, touched } = useFormik({
+  const { values, handleChange, handleSubmit, errors, handleBlur, touched } = useFormik({ // eslint-disable-line
     initialValues: {
       email: '',
       password: ''
