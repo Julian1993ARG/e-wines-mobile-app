@@ -1,13 +1,12 @@
 import React from 'react'
-import Cookies from 'universal-cookie'
-import { View } from 'react-native'
+import { View, Button } from 'react-native'
+import { storeData } from '../../utilities'
 
 const Home = () => {
-  const cookies = new Cookies()
-  const user = cookies.get('TOKEN')
+  console.log(process.env.URL_API)
   return (
     <View>
-      {console.log(user)}
+      <Button title='up' onPress={async () => await storeData('TOKEN', null, true)} />
     </View>
   )
 }

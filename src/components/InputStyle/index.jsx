@@ -4,11 +4,13 @@ import { TextInput, StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
+    width: '85%',
     borderColor: 'black',
     borderRadius: 6,
     padding: 10,
     margin: 10,
     backgroundColor: 'white'
+
   },
   error: {
     borderColor: '#d73a4a'

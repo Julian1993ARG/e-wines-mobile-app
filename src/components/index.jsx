@@ -1,4 +1,3 @@
-import React from 'react'
 import { View } from 'react-native'
 import NavBar from './NavBar'
 import { Route, Switch, Redirect } from 'react-router-native'

@@ -10,16 +10,21 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
+    "@react-native-async-storage/async-storage": "^1.17.10",
     "expo": "~46.0.16",
     "expo-status-bar": "~1.4.0",
     "formik": "^2.2.9",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
+    "react-native-auth0": "^2.14.1",
     "react-native-web": "~0.18.7",
+    "react-redux": "^8.0.4",
     "react-router-native": "^5.2.0",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
     "standard": "^17.0.0",
-    "universal-cookie": "^4.0.4"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

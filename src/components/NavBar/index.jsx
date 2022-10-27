@@ -48,7 +48,6 @@ const NavBar = () => {
         <AppBarTab to='/home'>Home</AppBarTab>
       </ScrollView>
     </View>
-
   )
 }
 
