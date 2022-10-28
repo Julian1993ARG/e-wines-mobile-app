@@ -15,6 +15,9 @@ export default function Main () {
         <Route path='/home' exact>
           <Home />
         </Route>
+        <Route path='/home' exact>
+          <Home />
+        </Route>
         <Redirect to='/' />
       </Switch>
     </View>
