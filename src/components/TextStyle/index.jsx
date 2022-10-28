@@ -33,7 +33,7 @@ const TextStyle = ({ color, fontSize, fontWeight, style, children, align, ...pro
 
   return (
     <Text style={textStyle} {...props}>
-      {children}
+      {children || 'No children'}
     </Text>
   )
 }

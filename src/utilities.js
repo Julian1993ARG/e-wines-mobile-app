@@ -46,3 +46,9 @@ export const useLogin = () => {
   }, [])
   return { login, user }
 }
+
+export function parsThousands (value) { // 120000 => 120k
+  return value >= 1000
+    ? `${Math.round(value / 100) / 10}k`
+    : String(value)
+}
