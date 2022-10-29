@@ -1,11 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import CreatePubli from '../../src/components/CreatePubli'
 
 export default function CreatePublicationScreen () {
   return (
     <View style={styles.root}>
-      <Text>
-        CreatePublicationScreen
-      </Text>
+      <CreatePubli />
     </View>
   )
 }

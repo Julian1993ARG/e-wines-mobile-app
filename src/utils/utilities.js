@@ -2,7 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect } from 'react'
 
 const utils = {
-  URLAPI: 'https://e-winespf.herokuapp.com'
+  URLAPI: 'https://e-winespf.herokuapp.com',
+  CLOUDNAME: 'dfq27ytd2',
+  PRESET: 'cpnushlf',
+  CLOUDINARY_URL: 'https://api.cloudinary.com/v1_1/dfq27ytd2/upload'
 }
 
 export default utils

@@ -24,7 +24,7 @@ export default function Navigation () {
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
-        <HomeStack.Screen name='Home' component={HomeScreen} />
+        <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
         <HomeStack.Screen name='PublicationDetail' component={PublicationDetailScreen} />
       </HomeStack.Navigator>
     )
@@ -32,7 +32,7 @@ export default function Navigation () {
   const CreatePublicationStackScreen = () => {
     return (
       <CreatePublicationStack.Navigator>
-        <CreatePublicationStack.Screen name='CreatePublication' component={CreatePublicationScreen} />
+        <CreatePublicationStack.Screen name='CreatePublicationScreem' component={CreatePublicationScreen} />
       </CreatePublicationStack.Navigator>
     )
   }
@@ -43,14 +43,14 @@ export default function Navigation () {
       </ProfileStack.Navigator>
     )
   }
-  const [userToken, setUserToken] = useState('sdf')//eslint-disable-line
+  const [userToken, setUserToken] = useState('')//eslint-disable-line
   return (
     <NavigationContainer>
       {
       userToken
         ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
-          <Tabs.Screen name='Home' component={HomeStackScreen} />
-          <Tabs.Screen name='CreatePublication' component={CreatePublicationStackScreen} />
+          <Tabs.Screen name='HomeStack' component={HomeStackScreen} />
+          <Tabs.Screen name='CreatePublicationStack' component={CreatePublicationStackScreen} />
           <Tabs.Screen name='Profile' component={ProfileStackScreen} />
           </Tabs.Navigator>) //eslint-disable-line
         : <AuthStack.Navigator screenOptions={{ headerShown: false }}>
