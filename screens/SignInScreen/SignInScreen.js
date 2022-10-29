@@ -23,17 +23,13 @@ export default function SignInScreen () {
   const { control, handleSubmit } = useForm()
 
   const onSignInPressed = async (dataLogin) => {
-    console.log(dataLogin)
+    console.log(JSON.stringify(dataLogin))
     // validate user
     // navigation.navigate('Home')
 
     try {
-      const res = await axios.post(`${utils.URLAPI}/users/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: dataLogin
-      })
-      console.log(res.data)
+      const res = await axios.post(`${utils.URLAPI}/users/login`, dataLogin)
+      console.log(res)
       if (res.data.token) {
         dispatch(login(res.data))
       }
