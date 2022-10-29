@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { View, Button, StyleSheet, Alert } from 'react-native'
 import { useFormik } from 'formik'
 import InputStyle from '../InputStyle'
-import utils from '../../utilities'
+import utils from '../../utils/utilities.js'
 import TextStyle from '../TextStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, logout } from '../../store/actions'
-import { schemaLogin } from '../../schemas'
+import { schemaLogin } from '../../utils/schemas.js'
 
 const Login = () => {
   const dispatch = useDispatch()

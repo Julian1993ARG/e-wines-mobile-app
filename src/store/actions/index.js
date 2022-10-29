@@ -1,4 +1,4 @@
-import utils, { storeData } from '../../utilities'
+import utils, { storeData } from '../../utils/utilities'
 import axios from 'axios'
 
 const urlApi = utils.URLAPI // eslint-disable-line 
@@ -19,13 +19,13 @@ export const logout = () => {
   }
 }
 
-export const getAllPubli = () => {
+export const getAllPublications = () => {
   return async function (dispatch) {
     try {
       const res = await axios.get(`${urlApi}/publications/all`)
 
       return dispatch({
-        type: 'GET_PUBLI_ALL',
+        type: 'GET_ALL_PUBLICATIONS',
         payload: res.data
       })
     } catch (error) {

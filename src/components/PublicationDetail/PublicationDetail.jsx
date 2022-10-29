@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { View, Button } from 'react-native'
-import { storeData } from '../../utilities'
+import { storeData } from '../../utils/utilities'
 import { getAllPubli } from '../../store/actions'
 import { useDispatch } from 'react-redux'
 
