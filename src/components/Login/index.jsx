@@ -49,7 +49,6 @@ const Login = () => {
         })
     }
   })
-  console.log(user, 'user')
   return (
     <View style={styles.container}>
       <InputStyle

@@ -1,6 +1,7 @@
 const initialState = {
   user: false,
-  publications: []
+  publications: [],
+  products: []
 }
 
 export default function reducer (state = initialState, action) {
@@ -20,6 +21,10 @@ export default function reducer (state = initialState, action) {
         ...state,
         publications: action.payload
       }
+    case 'POST_PUBLICATION':
+      return { ...state }
+    case 'GET_PRODUCT_ALL':
+      return { ...state, products: action.payload }
     default:
       return { ...state }
   }

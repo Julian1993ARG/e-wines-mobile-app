@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, ScrollView, SafeAreaView } from 'react-native'
 import Card from '../Card'
-import { getAllPubli } from '../../store/actions'
+import { getAllPubli, getAllProduct } from '../../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import TextStyle from '../TextStyle'
 
 const Home = () => {
   const dispatch = useDispatch()
   const publications = useSelector(state => state.publications)
-  console.log(publications[0])
-  useEffect(() => { dispatch(getAllPubli()) }, [])
+  useEffect(() => {
+    dispatch(getAllPubli())
+    dispatch(getAllProduct())
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>

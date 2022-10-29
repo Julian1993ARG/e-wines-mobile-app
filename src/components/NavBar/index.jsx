@@ -46,6 +46,7 @@ const NavBar = () => {
       <ScrollView horizontal style={styles.scroll}>
         <AppBarTab to='/'>SignIn</AppBarTab>
         <AppBarTab to='/home'>Home</AppBarTab>
+        <AppBarTab to='/createpubli'>Create a Publi</AppBarTab>
       </ScrollView>
     </View>
   )
