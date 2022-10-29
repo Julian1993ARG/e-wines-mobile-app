@@ -11,7 +11,8 @@ import CreatePublicationScreen from '../../screens/CreatePublicationScreen'
 import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailDcreen'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 // import NavBar from '../../screens/NavBar/index.jsx'
 
 const AuthStack = createStackNavigator()
@@ -21,18 +22,20 @@ const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
+  const user = useSelector(state => state.user)
+  const [userToken, setUserToken] = useState('')//eslint-disable-line
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
-        <HomeStack.Screen name='Home' component={HomeScreen} />
-        <HomeStack.Screen name='PublicationDetail' component={PublicationDetailScreen} />
+        <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
+        <HomeStack.Screen name='PublicationDetailScreen' component={PublicationDetailScreen} />
       </HomeStack.Navigator>
     )
   }
   const CreatePublicationStackScreen = () => {
     return (
       <CreatePublicationStack.Navigator>
-        <CreatePublicationStack.Screen name='CreatePublication' component={CreatePublicationScreen} />
+        <CreatePublicationStack.Screen name='CreatePublicationScreen' component={CreatePublicationScreen} />
       </CreatePublicationStack.Navigator>
     )
   }
@@ -43,15 +46,17 @@ export default function Navigation () {
       </ProfileStack.Navigator>
     )
   }
-  const [userToken, setUserToken] = useState('sdf')//eslint-disable-line
+  useEffect(() => {
+    if (user.token) setUserToken(user.token)
+  }, [user, userToken])
   return (
     <NavigationContainer>
       {
       userToken
         ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
-          <Tabs.Screen name='Home' component={HomeStackScreen} />
-          <Tabs.Screen name='CreatePublication' component={CreatePublicationStackScreen} />
-          <Tabs.Screen name='Profile' component={ProfileStackScreen} />
+          <Tabs.Screen name='HomeStack' component={HomeStackScreen} />
+          <Tabs.Screen name='CreatePublicationStack' component={CreatePublicationStackScreen} />
+          <Tabs.Screen name='ProfileStack' component={ProfileStackScreen} />
           </Tabs.Navigator>) //eslint-disable-line
         : <AuthStack.Navigator screenOptions={{ headerShown: false }}>
           <AuthStack.Screen name='SignIn' component={SignInScreen} />
