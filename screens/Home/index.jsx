@@ -9,17 +9,18 @@ import TextStyle from '../../src/components/TextStyle'
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   const publications = useSelector(state => state.publications)
-  useEffect(() => {
-    dispatch(getAllPublications())
-    dispatch(getAllProduct())
-  }, [])
+  // console.log(publications[0])
+  useEffect(() => { dispatch(getAllPublications()) }, [])
+  const onPress = (publication) => {
+    navigation.push('PublicationDetailScreen', { ...publication })
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <TextStyle fontSize='title' align='center' style={styles.title}>Publications</TextStyle>
         {publications?.map((publi, i) => <Card
           key={i} price={publi.price} id={publi.id} title={publi.title} img={publi.image}
-          onPress={() => navigation.push('PublicationDetailScreen', { ...publi })}
+          onPress={() => onPress(publi)}
                                          />)}
       </ScrollView>
     </SafeAreaView>
