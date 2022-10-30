@@ -14,7 +14,7 @@ import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
-// import { storeData } from '../utils/utilities.js'
+import { storeData } from '../utils/utilities.js'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,8 +24,8 @@ const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
   const user = useSelector(state => state.user)
-  const [userToken, setUserToken] = useState('')//eslint-disable-line
-  // const token = async () => await storeData('TOKEN')
+  const [userToken, setUserToken] = useState()//eslint-disable-line
+  const token = async () => await storeData('TOKEN')
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
@@ -51,7 +51,7 @@ export default function Navigation () {
   useEffect(() => {
     // if (user === null) {
     //   console.log(token)
-    //   if (token) setUserToken(token.token)
+    // if (token) setUserToken(token.token)
     // }
     if (user) setUserToken(user.token)
   }, [user, userToken])

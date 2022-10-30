@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import CustomInput from '../../src/components/CustomInput/CustomInput'
 import { useNavigation } from '@react-navigation/native'
+import { useForm } from 'react-hook-form'
 
-export default function ConfirmEmailScreen () {
-  const [code, setCode] = useState('')
+export default function ConfirmEmailScreen ({ route }) {
+  const { control, handleSubmit } = useForm()
 
   const navigation = useNavigation()
 
   const confirm = () => {
-    navigation.navigate('Home')
+    console.log(route)
+    if (route.params.username) {
+      navigation.navigate('SignIn')
+    }
   }
   const resend = () => {
     console.warn('resend')
@@ -24,9 +28,9 @@ export default function ConfirmEmailScreen () {
       <View style={styles.root}>
         <Text style={styles.title}>Confirmar E-mail</Text>
 
-        <CustomInput placeholder='Ingresar el código de verificación' value={code} setValue={setCode} />
+        <CustomInput name='code' control={control} placeholder='Ingrese código' rules={{ required: 'Se requiere código', minLength: { value: 6, message: 'El código debe tener al menos 6 caracteres' } }} />
 
-        <CustomButton onPress={confirm} text='Confirmar' />
+        <CustomButton onPress={handleSubmit(confirm)} text='Confirmar' />
 
         <CustomButton onPress={resend} text='Reenviar código' type='SECONDARY' />
         <CustomButton onPress={goToSignIn} text='Volver a Sign In' type='TERTIARY' />
