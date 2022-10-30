@@ -1,18 +1,20 @@
 import React from 'react'
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet, Pressable } from 'react-native'//eslint-disable-line
 import TextStyle from '../TextStyle'
-import { Link } from 'react-router-native'
+// import { Link } from 'react-router-native'
 
-const Card = ({ img, title, price, id }) => {
+const Card = ({ img, title, price, id, onPress }) => {
   return (
     <View style={styles.container}>
-      <Link to={`details/${id}`} component={TouchableOpacity}>
+      <Pressable onPress={onPress}>
         <Image style={styles.img} source={{ uri: img }} resizeMode='contain' />
         <View style={styles.text}>
           <TextStyle fontSize='title' align='center' fontWeight='bold' style={styles.title}>{title}</TextStyle>
           <TextStyle fontSize='medium' fontWeight='bold'>${price}</TextStyle>
         </View>
-      </Link>
+
+      </Pressable>
+
     </View>
   )
 }
