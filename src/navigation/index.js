@@ -10,10 +10,11 @@ import SignUpScreen from '../../screens/SignUpScreen/SignUpScreen.js'
 import CreatePublicationScreen from '../../screens/CreatePublicationScreen'
 import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
-import PublicationDetailScreen from '../../screens/PublicationDetailDcreen'
+import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-// import NavBar from '../../screens/NavBar/index.jsx'
+import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
+// import { storeData } from '../utils/utilities.js'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,6 +25,7 @@ const CreatePublicationStack = createStackNavigator()
 export default function Navigation () {
   const user = useSelector(state => state.user)
   const [userToken, setUserToken] = useState('')//eslint-disable-line
+  // const token = async () => await storeData('TOKEN', null, true)
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
@@ -47,16 +49,20 @@ export default function Navigation () {
     )
   }
   useEffect(() => {
-    if (user.token) setUserToken(user.token)
+    // if (user === null) {
+    //   console.log(token)
+    //   if (token) setUserToken(token.token)
+    // }
+    if (user) setUserToken(user.token)
   }, [user, userToken])
   return (
     <NavigationContainer>
       {
       userToken
         ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
-          <Tabs.Screen name='HomeStack' component={HomeStackScreen} />
-          <Tabs.Screen name='CreatePublicationStack' component={CreatePublicationStackScreen} />
-          <Tabs.Screen name='ProfileStack' component={ProfileStackScreen} />
+          <Tabs.Screen name='Home' component={HomeStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='home' color={color} size={size} />) }} />
+          <Tabs.Screen name='Crear Publicación' component={CreatePublicationStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='wine' color={color} size={size} />) }} />
+          <Tabs.Screen name='Perfil' component={ProfileStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }} />
           </Tabs.Navigator>) //eslint-disable-line
         : <AuthStack.Navigator screenOptions={{ headerShown: false }}>
           <AuthStack.Screen name='SignIn' component={SignInScreen} />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react' //eslint-disable-line
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
+import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Alert } from 'react-native'
 import Logo from '../../assets/Ewines/e-wine.png'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import CustomInput from '../../src/components/CustomInput/CustomInput'
@@ -24,21 +24,20 @@ export default function SignInScreen () {
 
   const onSignInPressed = async (dataLogin) => {
     console.log(JSON.stringify(dataLogin))
-    // validate user
-    // navigation.navigate('Home')
 
     try {
       const res = await axios.post(`${utils.URLAPI}/users/login`, dataLogin)
       console.log(res)
       if (res.data.token) {
         dispatch(login(res.data))
+      } else {
+        Alert('Error', 'Email or password incorrect')
       }
     } catch (error) {
       console.log(error.message)
     }
   }
   const onForgotPassword = () => {
-    console.warn(user)
     navigation.navigate('ForgotPasswordScreen')
   }
 
