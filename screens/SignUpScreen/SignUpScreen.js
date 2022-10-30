@@ -1,13 +1,15 @@
 import React, { useState } from 'react'//eslint-disable-line
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import CustomInput from '../../src/components/CustomInput/CustomInput'
 import SocialSignInButtons from '../../src/components/SocialSignInButtons/SocialSignInButtons'
-import { useNavigation } from '@react-navigation/native'
 import { useForm } from 'react-hook-form'
+import utils from '../../src/utils/utilities'
+import axios from 'axios'
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&<*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-export default function SignUpScreen () {
+const REGION_REGEX = /[a-zA-Z0-9\s\w.!#$%&<*+/=?^_`{|}~-]/
+export default function SignUpScreen ({ navigation }) {
   // const [username,setUsername]=useState('')
   // const [email,setEmail]= useState('')
   // const [password,setPassword]=useState('')
@@ -19,11 +21,19 @@ export default function SignUpScreen () {
   })
   const pwd = watch('password')
 
-  const navigation = useNavigation()
-
-  const register = (data) => {
-    console.log(data)
-    navigation.navigate('ConfirmEmailScreen')
+  const register = async (dataSignUp) => {
+    console.log(dataSignUp)
+    try {
+      const res = await axios.post(`${utils.URLAPI}/users`, dataSignUp)
+      console.log(res)
+      if (res.data.username) {
+        navigation.navigate('ConfirmEmailScreen', { ...res.data })
+      } else {
+        Alert('Error', 'No se pudo crear el usuario')
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
   }
   const onPrivacyPress = () => {
     console.warn('Crear cuenta')
@@ -41,6 +51,7 @@ export default function SignUpScreen () {
 
         <CustomInput name='username' control={control} placeholder='Username' rules={{ required: 'Se requiere username', minLength: { value: 5, message: 'Usernarme debe tener al menos 5 caracteres' }, maxLength: { value: 20, message: 'Username solo puede tener 20 caracteres como máximo' } }} />
         <CustomInput name='email' control={control} placeholder='Email' rules={{ required: 'Se requiere email', pattern: { value: EMAIL_REGEX, message: 'Email inválido' } }} />
+        <CustomInput name='region' control={control} placeholder='Region' rules={{ required: 'Se requiere region', pattern: { value: REGION_REGEX, message: 'Email inválido' } }} />
         <CustomInput
           name='password' control={control} placeholder='Password'
             //  value={password}
