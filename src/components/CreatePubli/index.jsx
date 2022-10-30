@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text } from 'react-native'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import { postPublication, getAllProduct } from '../../store/actions'
 import DropDown from '../DropDown'
 import InputStyle from '../InputStyle'
-import * as ImagePicker from 'expo-image-picker'
+import SelectImage from '../selectImage'
 import utils from '../../utils/utilities'
 import axios from 'axios'
 
@@ -15,23 +15,11 @@ export default function CreatePubli () {
   const products = useSelector(state => state.products)
 
   if (!products.length) dispatch(getAllProduct()) // si no hay productos, los traigo de la db
+
   const [image, setImage] = React.useState({
     uri: '',
     base64: '' // base64 es el formato que acepta la db
   })
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // solo imagenes
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true // para que me devuelva la imagen en base64
-    })
-    if (!result.cancelled) {
-      const { uri, base64 } = result // me guardo la uri y la base64 de la imagen
-      setImage({ uri, base64 }) // guardo la imagen en el estado
-    }
-  }
 
   const uploadImage = async (uri, base64) => {
     const uriArray = uri.split('.')
@@ -64,6 +52,7 @@ export default function CreatePubli () {
       dispatch(postPublication(values))
     }
   })
+  console.log(values)
   // const [selectProduct, setSelectProduct] = useState()
   return (
     <View>
@@ -94,7 +83,7 @@ export default function CreatePubli () {
         onBlur={handleBlur('count')}
         keyboardType='numeric' // solo numeros
       />
-      <Button title='Seleccione una imagen' onPress={pickImage} />
+      <SelectImage setImage={setImage} />
       {products && <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
     </View>
   )

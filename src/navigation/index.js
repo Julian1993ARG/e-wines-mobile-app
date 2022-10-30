@@ -23,7 +23,7 @@ const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
   const user = useSelector(state => state.user)
-  const [userToken, setUserToken] = useState('')//eslint-disable-line
+  const [userToken, setUserToken] = useState('aa')//eslint-disable-line
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
