@@ -12,10 +12,10 @@ import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'//eslint-disable-line
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
-import { storeData, useLogin } from '../utils/utilities.js'
-import { login } from '../store/actions/index.js'
+import { useLogin } from '../utils/utilities.js'
+import { login } from '../store/actions/index.js'//eslint-disable-line
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,9 +24,9 @@ const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const { userHook, loginState } = useLogin()
-  const [userToken, setUserToken, setLoginState] = useState(loginState)//eslint-disable-line
+  const [userToken, setUserToken] = useState(false)//eslint-disable-line
   const user = useSelector(state => state.user)
 
   const HomeStackScreen = () => {
@@ -52,15 +52,16 @@ export default function Navigation () {
     )
   }
   useEffect(() => {
-    console.log(loginState)
+    console.log(`${loginState} loginState`)
+    console.log(`${userToken}, userToken`)
     if (loginState) {
       setUserToken(true)
-      dispatch(login(userHook))
+      // dispatch(login(userHook)) //si descomento esta linea entra en bucle infinito
     }
-    // const log = await storeData('TOKEN')
-    // console.log('🚀 ~ file: index.js ~ line 61 ~ useEffect ~ log', log)
-    // if (!log) setUserToken(false)
-  }, [user])
+    if (!user) {
+      setUserToken(false)
+    }
+  }, [user, userHook])
   return (
     <NavigationContainer>
       {

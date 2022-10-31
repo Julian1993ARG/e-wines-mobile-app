@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, ScrollView, SafeAreaView } from 'react-native'
 import Card from '../../src/components/Card'
-import { getAllPublications, getAllProduct } from '../../src/store/actions'
+import { getAllPublications } from '../../src/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import TextStyle from '../../src/components/TextStyle'
 // import NavBar from '../NavBar'

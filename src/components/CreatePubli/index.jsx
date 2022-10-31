@@ -7,6 +7,7 @@ import DropDown from '../DropDown'
 import InputStyle from '../InputStyle'
 import SelectImage from '../selectImage'
 import { uploadImage } from '../../utils/utilities'
+import TextStyle from '../TextStyle'
 
 export default function CreatePubli () {
   const dispatch = useDispatch()
@@ -70,7 +71,7 @@ export default function CreatePubli () {
         keyboardType='numeric' // solo numeros
       />
       <SelectImage setImage={setImage} />
-      {products && <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
+      {typeof (products) === 'string' ? <TextStyle>{products}</TextStyle> : <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
       <Button title='Crear' disabled={send} onPress={handleSubmit} />
       <View>
         {(charge > 0 && charge < 100) && <Text>Cargando...</Text>}
