@@ -22,7 +22,7 @@ export const logout = () => {
 export const getAllPublications = () => {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${urlApi}/publications/all`)
+      const res = await axios.get(`${urlApi}/publications`)
 
       return dispatch({
         type: 'GET_ALL_PUBLICATIONS',

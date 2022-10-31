@@ -1,13 +1,12 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, Button } from 'react-native'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import { postPublication, getAllProduct } from '../../store/actions'
 import DropDown from '../DropDown'
 import InputStyle from '../InputStyle'
 import SelectImage from '../selectImage'
-import utils from '../../utils/utilities'
-import axios from 'axios'
+import { uploadImage } from '../../utils/utilities'
 
 export default function CreatePubli () {
   const dispatch = useDispatch()
@@ -20,25 +19,9 @@ export default function CreatePubli () {
     uri: '',
     base64: '' // base64 es el formato que acepta la db
   })
+  const [charge, setCharge] = React.useState(0) // para mostrar el spinner
 
-  const uploadImage = async (uri, base64) => {
-    const uriArray = uri.split('.')
-    const fileType = uriArray[uriArray.length - 1] // obtengo el tipo de archivo
-    const file = `data:${fileType};base64,${base64}`
-    try {
-      const upload = await axios.post(utils.CLOUDINARY_URL, {
-        file,
-        upload_preset: utils.PRESET
-      })
-      const response = await upload.data // obtengo la respuesta de cloudinary
-      const url = response.secure_url // obtengo la url de la imagen
-      console.log(url) // la url de la imagen la guardo en la db
-      setValues({ ...values, image: url }) // guardo la url en el estado
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const { values, setValues, handleChange, handleBlur } = useFormik({
+  const { values, setValues, handleChange, handleBlur, handleSubmit } = useFormik({
     initialValues: {
       productId: '',
       title: '',
@@ -48,12 +31,15 @@ export default function CreatePubli () {
       image: {},
       userId: user ? user.user.id : ''
     },
-    onSubmit: values => {
-      dispatch(postPublication(values))
+    onSubmit: async values => {
+      setSend(true)
+      await uploadImage(image.uri, image.base64, values, setValues, setCharge)
+      console.log(values) // values es el objeto que voy a guardar en la db
+      dispatch(postPublication(values)) // guardo la publicacion en la db
+      setSend(false)
     }
   })
-  console.log(values)
-  // const [selectProduct, setSelectProduct] = useState()
+  const [send, setSend] = useState(false)
   return (
     <View>
       <Text>Crear Publicacion</Text>
@@ -85,6 +71,10 @@ export default function CreatePubli () {
       />
       <SelectImage setImage={setImage} />
       {products && <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
+      <Button title='Crear' disabled={send} onPress={handleSubmit} />
+      <View>
+        {(charge > 0 && charge < 100) && <Text>Cargando...</Text>}
+      </View>
     </View>
   )
 }

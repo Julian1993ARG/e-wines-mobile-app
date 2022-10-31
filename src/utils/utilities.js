@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const utils = {
   URLAPI: 'https://e-winespf.herokuapp.com',
@@ -35,23 +36,53 @@ export const storeData = async (name, value, destroy) => {
 
 // Custon hook permite ver si esta logeado
 export const useLogin = () => {
-  const [login, setLogin] = useState(false)
-  const [user, setUser] = useState(null)
+  const [loginState, setLoginState] = useState(false)
+  const [userHook, setUserHook] = useState(null)
+
   useEffect(() => {
     const checkLogin = async () => {
       const data = await storeData('TOKEN')
       if (data) {
-        setLogin(true)
-        setUser(data)
+        setLoginState(true)
+        setUserHook(data)
       }
     }
     checkLogin()
   }, [])
-  return { login, user }
+  return { loginState, userHook, setLoginState }
 }
 
 export function parsThousands (value) { // 120000 => 120k
   return value >= 1000
     ? `${Math.round(value / 100) / 10}k`
     : String(value)
+}
+// Para poder subir imagenes a cloudinary
+
+export const uploadImage = async (uri, base64, values, setValues, setCharge) => {
+  // uri es la direccion
+  // debe estar en base64
+  // values son todos los valores
+  // setvalues es el seteador para modificar values
+  // setCharge es un estado que retorna el progreso de carga de la imagen
+
+  const uriArray = uri.split('.')
+  const fileType = uriArray[uriArray.length - 1] // obtengo el tipo de archivo
+  const file = `data:${fileType};base64,${base64}`
+  try {
+    const upload = await axios.post(utils.CLOUDINARY_URL, {
+      file,
+      upload_preset: utils.PRESET
+    }
+    , {
+      onUploadProgress (e) {
+        setCharge(Math.round((e.loaded * 100) / e.total))
+      }
+    })
+    const response = await upload.data // obtengo la respuesta de cloudinary
+    const url = response.secure_url // obtengo la url de la imagen
+    setValues({ ...values, image: url }) // guardo la url en el estado
+  } catch (error) {
+    console.log(error)
+  }
 }

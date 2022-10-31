@@ -1,8 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import CustomButton from '../../src/components/CustomButton/CustomButton'
+import { logout } from '../../src/store/actions'
 
 export default function ProfileScreen () {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+
+  const cerrarSesion = () => {
+    console.log('222')
+    dispatch(logout())
+  }
   return (
     <View style={styles.root}>
       <Text>
@@ -20,6 +28,7 @@ export default function ProfileScreen () {
       <Text>
         {user.id}
       </Text>
+      <CustomButton text='Cerrar sesión' onPress={cerrarSesion} />
     </View>
   )
 }

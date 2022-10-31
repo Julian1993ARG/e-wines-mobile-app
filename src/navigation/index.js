@@ -12,9 +12,10 @@ import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
-import { storeData } from '../utils/utilities.js'
+import { storeData, useLogin } from '../utils/utilities.js'
+import { login } from '../store/actions/index.js'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -23,9 +24,11 @@ const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
+  const dispatch = useDispatch()
+  const { userHook, loginState } = useLogin()
+  const [userToken, setUserToken, setLoginState] = useState(loginState)//eslint-disable-line
   const user = useSelector(state => state.user)
-  const [userToken, setUserToken] = useState()//eslint-disable-line
-  const token = async () => await storeData('TOKEN')
+
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
@@ -49,12 +52,15 @@ export default function Navigation () {
     )
   }
   useEffect(() => {
-    // if (user === null) {
-    //   console.log(token)
-    // if (token) setUserToken(token.token)
-    // }
-    if (user) setUserToken(user.token)
-  }, [user, userToken])
+    console.log(loginState)
+    if (loginState) {
+      setUserToken(true)
+      dispatch(login(userHook))
+    }
+    // const log = await storeData('TOKEN')
+    // console.log('🚀 ~ file: index.js ~ line 61 ~ useEffect ~ log', log)
+    // if (!log) setUserToken(false)
+  }, [user])
   return (
     <NavigationContainer>
       {
