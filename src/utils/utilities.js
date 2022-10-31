@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
 
 const utils = {
   URLAPI: 'https://ewinesapp.herokuapp.com',
@@ -28,32 +27,31 @@ export const storeData = async (name, value, destroy) => {
   } else {
     try {
       await AsyncStorage.removeItem(name)
+      console.log('remove')
     } catch (e) {
       // remove error
     }
-    console.log('Done.')
+    console.log('Done')
   }
 }
 
 // Custon hook permite ver si esta logeado
 export const useLogin = () => {
-  const user = useSelector(state => state.user)
   const [loginState, setLoginState] = useState(false)
   const [userHook, setUserHook] = useState(null)
-
-  useEffect(() => {
-    const checkLogin = async () => {
-      const data = await storeData('TOKEN')
-      if (data) {
-        setLoginState(true)
-        setUserHook(data)
-      } else {
-        setLoginState(false)
-      }
+  const checkLogin = async () => {
+    const data = await storeData('TOKEN')
+    console.log(data)
+    if (data) {
+      setLoginState(true)
+      setUserHook(data)
+    } else {
+      setLoginState(false)
+      setUserHook(null)
     }
-    checkLogin()
-  }, [user])
-  return { loginState, userHook, setLoginState }
+  }
+
+  return { loginState, userHook, checkLogin }
 }
 
 export function parsThousands (value) { // 120000 => 120k
@@ -63,7 +61,7 @@ export function parsThousands (value) { // 120000 => 120k
 }
 // Para poder subir imagenes a cloudinary
 
-export const uploadImage = async (uri, base64, values, setValues, setCharge) => {
+export const uploadImage = async (uri, base64, setCharge) => {
   // uri es la direccion
   // debe estar en base64
   // values son todos los valores
@@ -83,9 +81,10 @@ export const uploadImage = async (uri, base64, values, setValues, setCharge) => 
         setCharge(Math.round((e.loaded * 100) / e.total))
       }
     })
-    const response = await upload.data // obtengo la respuesta de cloudinary
-    const url = response.secure_url // obtengo la url de la imagen
-    setValues({ ...values, image: url }) // guardo la url en el estado
+    return upload.data.secure_url
+    // const response = await upload.data // obtengo la respuesta de cloudinary
+    // const url = response.secure_url // obtengo la url de la imagen
+    // setValues({ ...values, image: url }) // guardo la url en el estado
   } catch (error) {
     console.log(error)
   }

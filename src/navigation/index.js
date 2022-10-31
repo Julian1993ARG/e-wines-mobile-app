@@ -24,10 +24,12 @@ const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
-  const dispatch = useDispatch()
-  const { userHook, loginState } = useLogin()
-  const [userToken, setUserToken, setLoginState] = useState(loginState)//eslint-disable-line
-  const user = useSelector(state => state.user)
+  const user = useSelector(store => store.user)
+  // const dispatch = useDispatch()
+  const { userHook, loginState, checkLogin } = useLogin()
+  // const [userToken, setUserToken, setLoginState] = useState(loginState)//eslint-disable-line
+  // const user = useSelector(state => state.user)
+  console.log(loginState)
 
   const HomeStackScreen = () => {
     return (
@@ -52,19 +54,12 @@ export default function Navigation () {
     )
   }
   useEffect(() => {
-    console.log(loginState)
-    if (loginState) {
-      setUserToken(true)
-      dispatch(login(userHook))
-    }
-    // const log = await storeData('TOKEN')
-    // console.log('🚀 ~ file: index.js ~ line 61 ~ useEffect ~ log', log)
-    // if (!log) setUserToken(false)
+    checkLogin()
   }, [user])
   return (
     <NavigationContainer>
       {
-      userToken
+      loginState
         ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
           <Tabs.Screen name='Home' component={HomeStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='home' color={color} size={size} />) }} />
           <Tabs.Screen name='Crear Publicación' component={CreatePublicationStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='wine' color={color} size={size} />) }} />

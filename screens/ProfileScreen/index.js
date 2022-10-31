@@ -2,13 +2,14 @@ import { View, Text, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import { logout } from '../../src/store/actions'
+import { storeData } from '../../src/utils/utilities'
 
 export default function ProfileScreen () {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
 
-  const cerrarSesion = () => {
-    console.log('222')
+  const cerrarSesion = async () => {
+    await storeData('TOKEN', null, true)
     dispatch(logout())
   }
   return (

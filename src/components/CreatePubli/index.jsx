@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Button } from 'react-native'
+import { ScrollView, View, Text, Button } from 'react-native'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import { postPublication, getAllProduct } from '../../store/actions'
@@ -33,15 +33,17 @@ export default function CreatePubli () {
     },
     onSubmit: async values => {
       setSend(true)
-      await uploadImage(image.uri, image.base64, values, setValues, setCharge)
-      console.log(values) // values es el objeto que voy a guardar en la db
+      const url = await uploadImage(image.uri, image.base64, setCharge)
+      setValues({ ...values, image: url }) // seteo la url de la imagen en el state de la publicacion
+      // console.log(values) // values es el objeto que voy a guardar en la db
+      console.log(values, 'Values')
       dispatch(postPublication(values)) // guardo la publicacion en la db
       setSend(false)
     }
   })
   const [send, setSend] = useState(false)
   return (
-    <View>
+    <ScrollView>
       <Text>Crear Publicacion</Text>
       <InputStyle
         placeholder='Titulo'
@@ -75,6 +77,6 @@ export default function CreatePubli () {
       <View>
         {(charge > 0 && charge < 100) && <Text>Cargando...</Text>}
       </View>
-    </View>
+    </ScrollView>
   )
 }

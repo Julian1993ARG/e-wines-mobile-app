@@ -7,7 +7,7 @@ import SocialSignUpButton from '../../src/components/SocialSignInButtons/SocialS
 import { useNavigation } from '@react-navigation/native'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import utils from '../../src/utils/utilities'
+import utils, { storeData } from '../../src/utils/utilities'
 import { login, logout } from '../../src/store/actions'//eslint-disable-line
 import axios from 'axios'
 
@@ -23,12 +23,10 @@ export default function SignInScreen () {
   const { control, handleSubmit } = useForm()
 
   const onSignInPressed = async (dataLogin) => {
-    console.log(JSON.stringify(dataLogin))
-
     try {
       const res = await axios.post(`${utils.URLAPI}/users/login`, dataLogin)
-      console.log(res)
       if (res.data.token) {
+        await storeData('TOKEN', res.data)
         dispatch(login(res.data))
       } else {
         Alert('Error', 'Email or password incorrect')
