@@ -17,14 +17,18 @@ const styles = StyleSheet.create({
   },
   select: {
     borderWidth: 2
+  },
+  sucess: {
+    borderColor: '#2a9d8f'
   }
 })
 
-const InputStyle = ({ style, select, error, ...props }) => {
+const InputStyle = ({ style, select, error, sucess, ...props }) => {
   const inputStyle = [
     styles.textInput,
     error && styles.error,
     select && styles.select,
+    sucess && styles.sucess,
     style
   ]
 

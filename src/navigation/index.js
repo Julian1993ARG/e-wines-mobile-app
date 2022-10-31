@@ -11,9 +11,8 @@ import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
-import { useLogin } from '../utils/utilities.js'
+import { useLogin } from '../utils/hooks'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -23,7 +22,6 @@ const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
-  const user = useSelector(state => state.user)
 
   const HomeStackScreen = () => {
     return (
@@ -36,31 +34,39 @@ export default function Navigation () {
   const CreatePublicationStackScreen = () => {
     return (
       <CreatePublicationStack.Navigator>
-        <CreatePublicationStack.Screen name='CreatePublicationScreen' component={CreatePublicationScreen} />
+        <CreatePublicationStack.Screen name='CreatePublicationScreen'>{props => <CreatePublicationScreen {...props} />}</CreatePublicationStack.Screen>
       </CreatePublicationStack.Navigator>
     )
   }
   const ProfileStackScreen = () => {
     return (
       <ProfileStack.Navigator>
-        <ProfileStack.Screen name='ProfileStack' component={ProfileScreen} />
+        <ProfileStack.Screen name='ProfileStack'>{props => <ProfileScreen {...props} checkLogin={checkLogin} />}</ProfileStack.Screen>
       </ProfileStack.Navigator>
     )
   }
   useEffect(() => {
     checkLogin()
-  }, [user])
+  }, [loginState])
   return (
     <NavigationContainer>
       {
       loginState
         ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
           <Tabs.Screen name='Home' component={HomeStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='home' color={color} size={size} />) }} />
-          <Tabs.Screen name='Crear Publicación' component={CreatePublicationStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='wine' color={color} size={size} />) }} />
-          <Tabs.Screen name='Perfil' component={ProfileStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }} />
+          <Tabs.Screen
+            name='Crear Publicación'
+            component={CreatePublicationStackScreen}
+            options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='wine' color={color} size={size} />) }}
+          />
+          <Tabs.Screen
+            name='Perfil'
+            options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
+            component={ProfileStackScreen}
+          />
           </Tabs.Navigator>) //eslint-disable-line
         : <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-          <AuthStack.Screen name='SignIn' component={SignInScreen} />
+          <AuthStack.Screen name='SignIn'>{props => <SignInScreen {...props} checkLogin={checkLogin} />}</AuthStack.Screen>
           <AuthStack.Screen name='SignUpScreen' component={SignUpScreen} />
           <AuthStack.Screen name='ConfirmEmailScreen' component={ConfirmEmailScreen} />
           <AuthStack.Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} />

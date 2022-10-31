@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useState } from 'react'
 import axios from 'axios'
 
 const utils = {
@@ -27,31 +26,10 @@ export const storeData = async (name, value, destroy) => {
   } else {
     try {
       await AsyncStorage.removeItem(name)
-      console.log('remove')
     } catch (e) {
       // remove error
     }
-    console.log('Done')
   }
-}
-
-// Custon hook permite ver si esta logeado
-export const useLogin = () => {
-  const [loginState, setLoginState] = useState(false)
-  const [userHook, setUserHook] = useState(null)
-  const checkLogin = async () => {
-    const data = await storeData('TOKEN')
-    console.log(data)
-    if (data) {
-      setLoginState(true)
-      setUserHook(data)
-    } else {
-      setLoginState(false)
-      setUserHook(null)
-    }
-  }
-
-  return { loginState, userHook, checkLogin }
 }
 
 export function parsThousands (value) { // 120000 => 120k

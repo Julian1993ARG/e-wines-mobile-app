@@ -11,7 +11,7 @@ import utils, { storeData } from '../../src/utils/utilities'
 import { login, logout } from '../../src/store/actions'//eslint-disable-line
 import axios from 'axios'
 
-export default function SignInScreen () {
+export default function SignInScreen ({ checkLogin }) {
   const dispatch = useDispatch()//eslint-disable-line
   const user = useSelector(state => state.user)//eslint-disable-line
 
@@ -28,6 +28,7 @@ export default function SignInScreen () {
       if (res.data.token) {
         await storeData('TOKEN', res.data)
         dispatch(login(res.data))
+        checkLogin()//eslint-disable-line
       } else {
         Alert('Error', 'Email or password incorrect')
       }

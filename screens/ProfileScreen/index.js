@@ -5,15 +5,14 @@ import CustomButton from '../../src/components/CustomButton/CustomButton'
 import { logout } from '../../src/store/actions'
 import { storeData } from '../../src/utils/utilities'
 
-export default function ProfileScreen ({ route }) {
+export default function ProfileScreen ({ checkLogin }) {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  // const navigation = useNavigation()
 
   const cerrarSesion = async () => {
     await storeData('TOKEN', null, true)
     dispatch(logout())
-    // navigation.navigate('SignIn')
+    checkLogin()
   }
   return (
     <View style={styles.root}>
