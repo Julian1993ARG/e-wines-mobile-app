@@ -7,6 +7,7 @@ import DropDown from '../DropDown'
 import InputStyle from '../InputStyle'
 import SelectImage from '../selectImage'
 import { uploadImage } from '../../utils/utilities'
+import TextStyle from '../TextStyle'
 
 export default function CreatePubli () {
   const dispatch = useDispatch()
@@ -34,6 +35,7 @@ export default function CreatePubli () {
     onSubmit: async values => {
       setSend(true)
       const url = await uploadImage(image.uri, image.base64, setCharge)
+      console.log(url)
       setValues({ ...values, image: url }) // seteo la url de la imagen en el state de la publicacion
       // console.log(values) // values es el objeto que voy a guardar en la db
       console.log(values, 'Values')
@@ -72,7 +74,7 @@ export default function CreatePubli () {
         keyboardType='numeric' // solo numeros
       />
       <SelectImage setImage={setImage} />
-      {products && <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
+      {typeof (products) === 'string' ? <TextStyle>{products}</TextStyle> : <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
       <Button title='Crear' disabled={send} onPress={handleSubmit} />
       <View>
         {(charge > 0 && charge < 100) && <Text>Cargando...</Text>}

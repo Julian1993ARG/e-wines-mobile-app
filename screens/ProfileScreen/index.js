@@ -1,16 +1,19 @@
+// import { useNavigation } from '@react-navigation/native'
 import { View, Text, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import { logout } from '../../src/store/actions'
 import { storeData } from '../../src/utils/utilities'
 
-export default function ProfileScreen () {
+export default function ProfileScreen ({ route }) {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+  // const navigation = useNavigation()
 
   const cerrarSesion = async () => {
     await storeData('TOKEN', null, true)
     dispatch(logout())
+    // navigation.navigate('SignIn')
   }
   return (
     <View style={styles.root}>
@@ -23,9 +26,9 @@ export default function ProfileScreen () {
       <Text>
         {user.username}
       </Text>
-      <Text>
+      {/* <Text>
         {user.region}
-      </Text>
+      </Text> */}
       <Text>
         {user.id}
       </Text>

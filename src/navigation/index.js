@@ -1,5 +1,4 @@
 import { NavigationContainer } from '@react-navigation/native'
-// import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import ConfirmEmailScreen from '../../screens/ConfirmEmailScreen/ConfirmEmailScreen.js'
@@ -11,11 +10,10 @@ import CreatePublicationScreen from '../../screens/CreatePublicationScreen'
 import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
-import { storeData, useLogin } from '../utils/utilities.js'
-import { login } from '../store/actions/index.js'
+import { useLogin } from '../utils/utilities.js'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,12 +22,8 @@ const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
-  const user = useSelector(store => store.user)
-  // const dispatch = useDispatch()
-  const { userHook, loginState, checkLogin } = useLogin()
-  // const [userToken, setUserToken, setLoginState] = useState(loginState)//eslint-disable-line
-  // const user = useSelector(state => state.user)
-  console.log(loginState)
+  const { loginState, checkLogin } = useLogin()
+  const user = useSelector(state => state.user)
 
   const HomeStackScreen = () => {
     return (
