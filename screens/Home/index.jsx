@@ -18,10 +18,12 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <TextStyle fontSize='title' align='center' style={styles.title}>Publications</TextStyle>
-        {publications?.map((publi, i) => <Card
-          key={i} price={publi.price} id={publi.id} title={publi.title} img={publi.image}
-          onPress={() => onPress(publi)}
-                                         />)}
+        {(typeof (publications) === 'string')
+          ? <TextStyle>{publications}</TextStyle>
+          : publications.map((publi, i) => <Card
+              key={i} price={publi.price} id={publi.id} title={publi.title} img={publi.image}
+              onPress={() => onPress(publi)}
+                                           />)}
       </ScrollView>
     </SafeAreaView>
   )

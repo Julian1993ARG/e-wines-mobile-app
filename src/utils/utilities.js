@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 const utils = {
-  URLAPI: 'https://e-winespf.herokuapp.com',
+  URLAPI: 'https://ewinesapp.herokuapp.com',
   CLOUDNAME: 'dfq27ytd2',
   PRESET: 'cpnushlf',
   CLOUDINARY_URL: 'https://api.cloudinary.com/v1_1/dfq27ytd2/upload'
@@ -36,6 +37,7 @@ export const storeData = async (name, value, destroy) => {
 
 // Custon hook permite ver si esta logeado
 export const useLogin = () => {
+  const user = useSelector(state => state.user)
   const [loginState, setLoginState] = useState(false)
   const [userHook, setUserHook] = useState(null)
 
@@ -45,10 +47,12 @@ export const useLogin = () => {
       if (data) {
         setLoginState(true)
         setUserHook(data)
+      } else {
+        setLoginState(false)
       }
     }
     checkLogin()
-  }, [])
+  }, [user])
   return { loginState, userHook, setLoginState }
 }
 
