@@ -28,7 +28,7 @@ export default function Filter () {
       typeof (publicacions) === 'string'
         ? <TextStyle>{publicacions}</TextStyle>
         : <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <DropDown values={filter} onChange={setFilter} items={opt} title='Ordernar' value='opt' style={{ borderRadius: 5 }} />
+          <DropDown values={filter} onChange={setFilter} items={opt} title='Ordernar' value='opt' />
           {/* <DropDown values={filter} onChange={setFilter} items={varietals} title='Varietal' value='varietal' /> */}
           <DropDown values={filter} onChange={setFilter} items={types} title='Tipo' value='type' />
           <DropDown values={filter} onChange={setFilter} items={provinces} title='Origen' value='origin' />

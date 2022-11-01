@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
 import EvaPract from '../components/EvaPract'
+import { Text } from 'react-native'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -26,7 +27,10 @@ export default function Navigation () {
 
   const HomeStackScreen = () => {
     return (
-      <HomeStack.Navigator>
+      <HomeStack.Navigator screenOptions={({ navigation }) => ({
+        headerRight: () => <Text>Hola</Text>
+      })}
+      >
         <HomeStack.Screen name='Publicaciones' component={HomeScreen} />
         <HomeStack.Screen name='PublicationDetailScreen' component={PublicationDetailScreen} />
       </HomeStack.Navigator>

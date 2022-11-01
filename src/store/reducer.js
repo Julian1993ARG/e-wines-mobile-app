@@ -3,7 +3,8 @@ const initialState = {
   publications: [],
   allPublications: [],
   products: [],
-  varietals: []
+  varietals: [],
+  carrito: []
 }
 
 export default function reducer (state = initialState, action) {
@@ -34,6 +35,13 @@ export default function reducer (state = initialState, action) {
       return { ...state, publications: state.allPublications }
     case 'GET_VARIETALS':
       return { ...state, varietals: action.payload }
+    case 'ADD_CARRITO':
+      return {
+        ...state,
+        carrito: [...state.carrito.find(item => item.id === action.payload.id) ? state.carrito.map(item => item.id === action.payload.id && { ...item, cant: item.cant + 1 }) : [...state.carrito, action.payload]] // eslint-disable-line
+      }
+    case 'REMOVE_CARRITO':
+      return { ...state, carrito: state.carrito.filter(item => item.id !== action.payload) }
     default:
       return { ...state }
   }

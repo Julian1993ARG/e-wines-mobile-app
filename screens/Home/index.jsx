@@ -4,6 +4,7 @@ import Card from '../../src/components/Card'
 import { getAllPublications, getAllProduct } from '../../src/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Layout, List } from '@ui-kitten/components'
+import Filter from '../../src/components/Filters/Filters'
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -16,7 +17,9 @@ const HomeScreen = ({ navigation }) => {
     navigation.push('PublicationDetailScreen', { ...publication })
   }
   return (
+
     <Layout>
+      <Filter />
       <List
         data={publications && publications}
         numColumns={2}
@@ -26,8 +29,8 @@ const HomeScreen = ({ navigation }) => {
             price={item.price} id={item.id} title={item.title} img={item.image} name={item.name} onPress={() => onPress(item)}
           />)}
       />
-
     </Layout>
+
   )
 }
 

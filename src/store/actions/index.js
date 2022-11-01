@@ -94,3 +94,17 @@ export const getVarietals = () => {
     }
   }
 }
+
+export const addCarrito = (publication) => {
+  return {
+    type: 'ADD_CARRITO',
+    payload: publication
+  }
+}
+
+export const removeCarrito = (id) => {
+  return {
+    type: 'REMOVE_CARRITO',
+    payload: id
+  }
+}
