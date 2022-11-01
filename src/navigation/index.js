@@ -13,6 +13,7 @@ import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect } from 'react'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
+import EvaPract from '../components/EvaPract'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -64,7 +65,13 @@ export default function Navigation () {
             options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
             component={ProfileStackScreen}
           />
-          </Tabs.Navigator>) //eslint-disable-line
+          <Tabs.Screen
+            name='EVA'
+            options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
+            component={EvaPract}
+          />
+           </Tabs.Navigator>) // eslint-disable-line
+
         : <AuthStack.Navigator screenOptions={{ headerShown: false }}>
           <AuthStack.Screen name='SignIn'>{props => <SignInScreen {...props} checkLogin={checkLogin} />}</AuthStack.Screen>
           <AuthStack.Screen name='SignUpScreen' component={SignUpScreen} />

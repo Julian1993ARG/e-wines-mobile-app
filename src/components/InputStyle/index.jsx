@@ -8,8 +8,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 6,
     padding: 10,
-    margin: 10,
-    backgroundColor: 'white'
+    margin: 10
 
   },
   error: {

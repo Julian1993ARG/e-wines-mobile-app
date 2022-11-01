@@ -1,4 +1,4 @@
-import react from 'react'
+
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Controller } from 'react-hook-form'
 
@@ -29,7 +29,6 @@ export default function CustomInput ({ control, name, rules = {}, placeholder, s
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '100%',
 
     borderColor: '#E8E8E8',
