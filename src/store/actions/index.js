@@ -64,3 +64,33 @@ export function postPublication (data, token) {
     }
   }
 }
+export const filterPublications = ({ varietal, type, origin, opt }) => {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.get(`${urlApi}/publications/filter?varietal=${varietal}&type=${type}&origin=${origin}&opt=${opt}`)
+      return dispatch({
+        type: 'FILTER_PUBLICATIONS',
+        payload: data
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+export const clearFilter = () => {
+  return { type: 'CLEAR_FILTER', payload: null }
+}
+
+export const getVarietals = () => {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios(`${urlApi}/varietals`)
+      return dispatch({
+        type: 'GET_VARIETALS',
+        payload: data
+      })
+    } catch (error) {
+
+    }
+  }
+}
