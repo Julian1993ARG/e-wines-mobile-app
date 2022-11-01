@@ -1,7 +1,9 @@
 const initialState = {
   user: false,
   publications: [],
-  products: []
+  allPublications: [],
+  products: [],
+  varietals: []
 }
 
 export default function reducer (state = initialState, action) {
@@ -19,12 +21,19 @@ export default function reducer (state = initialState, action) {
     case 'GET_ALL_PUBLICATIONS':
       return {
         ...state,
-        publications: action.payload
+        publications: action.payload,
+        allPublications: action.payload
       }
     case 'POST_PUBLICATION':
       return { ...state }
     case 'GET_PRODUCT_ALL':
       return { ...state, products: action.payload }
+    case 'FILTER_PUBLICATIONS':
+      return { ...state, publications: action.payload }
+    case 'CLEAR_FILTER':
+      return { ...state, publications: state.allPublications }
+    case 'GET_VARIETALS':
+      return { ...state, varietals: action.payload }
     default:
       return { ...state }
   }
