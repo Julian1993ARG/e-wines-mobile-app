@@ -5,6 +5,7 @@ import { getAllPublications, getAllProduct } from '../../src/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import TextStyle from '../../src/components/TextStyle'
 import { Layout, Text } from '@ui-kitten/components'
+import Filter from '../../src/components/Filters/Filters'
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -22,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <Text category='h1' status='control'>Publications</Text>
+          <Filter />
           {(typeof (publications) === 'string')
             ? <TextStyle>{publications}</TextStyle>
             : publications.map((publi, i) => <Card
