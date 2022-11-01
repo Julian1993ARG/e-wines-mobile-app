@@ -1,22 +1,22 @@
 // import { useNavigation } from '@react-navigation/native'
-import { View, Text, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomButton from '../../src/components/CustomButton/CustomButton'
 import { logout } from '../../src/store/actions'
+import { storeData } from '../../src/utils/utilities'
+import { Layout, Text, Button } from '@ui-kitten/components'
 
-export default function ProfileScreen ({ route }) {
+export default function ProfileScreen ({ checkLogin }) {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  // const navigation = useNavigation()
 
-  const cerrarSesion = () => {
-    console.log('222')
+  const cerrarSesion = async () => {
+    await storeData('TOKEN', null, true)
     dispatch(logout())
-    // navigation.navigate('SignIn')
+    checkLogin()
   }
   return (
-    <View style={styles.root}>
-      <Text>
+    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text category='h1'>
         Profile Screen
       </Text>
       <Text>
@@ -25,21 +25,18 @@ export default function ProfileScreen ({ route }) {
       <Text>
         {user.username}
       </Text>
-      {/* <Text>
-        {user.region}
-      </Text> */}
       <Text>
         {user.id}
       </Text>
-      <CustomButton text='Cerrar sesión' onPress={cerrarSesion} />
-    </View>
+      <Button onPress={cerrarSesion}>Cerrar Sesion</Button>
+    </Layout>
   )
 }
 
-const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    alignContent: 'center',
-    fontSize: 24
-  }
-})
+// const styles = StyleSheet.create({
+//   root: {
+//     alignItems: 'center',
+//     alignContent: 'center',
+//     fontSize: 24
+//   }
+// })

@@ -14,7 +14,7 @@ export default function DropDown ({ items, onChange, values, title, value, style
       selectedValue={selectProduct} onValueChange={(itemValue, itemIndex) => {
         setSelectProduct(itemValue)
         onChange({ ...values, [value]: itemValue })
-      }} mode='dropdown' style={{ height: 50, width: 150, ...style }}
+      }} mode='dropdown' style={{ height: 50, width: 150, marginVertical: 5, ...style }}
     ><Picker label={title} value='' />
       {items?.map((item, i) => <Picker.Item key={i} label={item.name} value={item.id} />)}
     </Picker>

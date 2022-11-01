@@ -5,18 +5,19 @@ import { Provider } from 'react-redux'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import store from './src/store'
 import Navigation from './src/navigation/index.js'
+import * as eva from '@eva-design/eva'
+import { ApplicationProvider } from '@ui-kitten/components'
 
 export default function App () {
   return (
     <>
       <StatusBar style='light' />
       <Provider store={store}>
-        <SafeAreaView style={styles.root}>
-          <Navigation />
-        </SafeAreaView>
-        {/* <NativeRouter>
-          <Main />
-        </NativeRouter> */}
+        <ApplicationProvider {...eva} theme={eva.dark}>
+          <SafeAreaView style={styles.root}>
+            <Navigation />
+          </SafeAreaView>
+        </ApplicationProvider>
       </Provider>
     </>
   )
@@ -24,7 +25,6 @@ export default function App () {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
-    backgroundColor: '#F9FBFC'
+    flex: 1
   }
 })

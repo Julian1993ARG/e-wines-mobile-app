@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { View, Image, Button } from 'react-native'
+import { View, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
+import CustomButton from '../CustomButton/CustomButton'
 
 export default function SelectImage ({ setImage }) {
   const [showImage, setShowImage] = useState(false) // para mostrar la imagen seleccionada
@@ -19,9 +20,9 @@ export default function SelectImage ({ setImage }) {
     }
   }
   return (
-    <View>
-      <Button title='Seleccionar Imagen' onPress={pickImage} />
-      {showImage && <Image source={{ uri: showImage }} style={{ width: 200, height: 200 }} />}
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <CustomButton text='Seleccionar Imagen' onPress={pickImage} />
+      {showImage && <Image source={{ uri: showImage }} style={{ width: 200, height: 200, marginVertical: 20 }} />}
     </View>
   )
 }
