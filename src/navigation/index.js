@@ -27,7 +27,7 @@ export default function Navigation () {
   const HomeStackScreen = () => {
     return (
       <HomeStack.Navigator>
-        <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
+        <HomeStack.Screen name='Publicaciones' component={HomeScreen} />
         <HomeStack.Screen name='PublicationDetailScreen' component={PublicationDetailScreen} />
       </HomeStack.Navigator>
     )

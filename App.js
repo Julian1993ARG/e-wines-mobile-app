@@ -13,7 +13,7 @@ export default function App () {
     <>
       <StatusBar style='light' />
       <Provider store={store}>
-        <ApplicationProvider {...eva} theme={eva.dark}>
+        <ApplicationProvider {...eva} theme={eva.light}>
           <SafeAreaView style={styles.root}>
             <Navigation />
           </SafeAreaView>

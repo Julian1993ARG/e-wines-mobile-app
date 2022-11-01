@@ -1,19 +1,48 @@
 import React from 'react'
-import { View, Image, StyleSheet, Pressable } from 'react-native'//eslint-disable-line
-import { Text, Layout } from '@ui-kitten/components'
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native'//eslint-disable-line
+import { Text, Button, Card } from '@ui-kitten/components'
+import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 
-const CardHome = ({ img, title, price, id, onPress }) => {
+export const CartIcon = () => (
+  <MaterialComunityIcons name='cart' size={25} color='#fff' />
+)
+
+const Header = ({ img }) => (
+  <View>
+    <ImageBackground source={{ uri: img }} style={styles.img} />
+  </View>
+)
+
+const Footer = ({ price }) => (
+  <View style={styles.itemFooter}>
+    <Text category='s1'>$ {price}</Text>
+    <Button
+      style={styles.iconButton}
+      size='small'
+      accessoryLeft={CartIcon}
+      onPress={() => console.log('Add to cart')}
+    />
+  </View>
+)
+
+const CardHome = ({ img, title, price, id, onPress, name }) => {
   return (
-    <Layout style={styles.container}>
-
-      <Pressable onPress={onPress}>
-        <Image style={styles.img} source={{ uri: img }} />
-        <View>
-          <Text category='h4'>{title}</Text>
-          <Text category='h6'>${price}</Text>
-        </View>
-      </Pressable>
-    </Layout>
+    <Card
+      header={() => <Header img={img} />}
+      footer={() => <Footer price={price} />}
+      onPress={onPress}
+      style={styles.card}
+    >
+      <View style={styles.item}>
+        <Text category='s1'>{title}</Text>
+        <Text
+          appearance='hint'
+          category='c1'
+        >
+          {name}
+        </Text>
+      </View>
+    </Card>
   )
 }
 
@@ -25,15 +54,28 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   img: {
-    width: 300,
-    height: 300,
-    borderRadius: 8
+    height: 140
   },
   text: {
     marginVertical: 30
   },
-  title: {
-    marginVertical: 5
+  item: {
+    minHeight: 60
+  },
+  iconButton: {
+    paddingHorizontal: 0
+  },
+  itemFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 20
+  },
+  card: {
+    flex: 1,
+    margin: 8,
+    maxWidth: Dimensions.get('window').width / 2 - 24
   }
 })
 

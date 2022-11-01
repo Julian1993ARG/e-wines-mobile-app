@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text, StyleSheet } from 'react-native'
+import { ScrollView, View, StyleSheet } from 'react-native'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
-import { postPublication, getAllProduct } from '../../store/actions'
+import { postPublication, getAllProduct, getAllPublications } from '../../store/actions'
 import DropDown from '../DropDown'
-import InputStyle from '../InputStyle'
 import SelectImage from '../selectImage'
 import { uploadImage } from '../../utils/utilities'
-import TextStyle from '../TextStyle'
 import { schemaFormPubli } from '../../utils/schemas'
-import CustonButton from '../CustomButton/CustomButton'
+import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
+import {
+  Button,
+  Input,
+  Text,
+  Spinner
+} from '@ui-kitten/components'
 
-export default function CreatePubli (props) {
+const LoadingIndicator = (props) => (
+  <View style={[props.style, styles.indicator]}>
+    <Spinner size='small' />
+  </View>
+)
+
+function SucessIcon (props) {
+  return (
+    <MaterialComunityIcons name='checkmark-done' size={25} color='green' />
+  )
+}
+function AlertIcon (props) {
+  return (
+    <MaterialComunityIcons name='alert-circle' size={25} color='red' />
+  )
+}
+
+export default function CreatePubli () {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
   const products = useSelector(state => state.products)
@@ -20,7 +41,7 @@ export default function CreatePubli (props) {
     uri: '',
     base64: '' // base64 es el formato que acepta la db
   })
-  const [charge, setCharge] = React.useState(0) // para mostrar el spinner
+  const [charge, setCharge] = React.useState(0) // eslint-disable-line
   if (!products) dispatch(getAllProduct()) // si no hay productos los traigo
 
   const { values, setValues, handleChange, handleBlur, handleSubmit, errors, touched } = useFormik({
@@ -34,68 +55,83 @@ export default function CreatePubli (props) {
       userId: user ? user.user.id : ''
     },
     validationSchema: schemaFormPubli,
-    onSubmit: async values => {
+    onSubmit: async (values, { resetForm }) => {
       setSend(true)
       const url = await uploadImage(image.uri, image.base64, setCharge)
-      dispatch(postPublication({ ...values, image: url })) // envio la publicacion con la url de la imagen
-      setSend(false)
+      dispatch(postPublication({ ...values, image: url }))
+      dispatch(getAllPublications())
+      setTimeout(() => {
+        setSend(false)
+        resetForm()
+        setImage({ uri: '', base64: '' }) // reseteo la imagen
+      }, 1000)
     }
   })
-  console.log(errors)
   const [send, setSend] = useState(false)
   return (
-
-    <ScrollView style={styles.scroll}>
-      <View style={styles.container}>
-        <TextStyle align='center' fontSize='title'>Crear Publicacion</TextStyle>
-        <InputStyle
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Input
           placeholder='Titulo'
           value={values.title}
           onChangeText={handleChange('title')}
           onBlur={handleBlur('title')}
-          error={errors.title && touched.title}
-          sucess={touched.title && !errors.title}
+          status={touched.title ? errors.title ? 'danger' : 'success' : 'basic'}
+          caption={touched.title && errors.title}
+          accessoryRight={touched.title ? errors.title ? AlertIcon : SucessIcon : null}
+          style={styles.input}
         />
-        {errors.title && touched.title && <TextStyle color='error' fontSize='medium'>{errors.title}</TextStyle>}
-        <InputStyle
+        <Input
           placeholder='Precio'
           value={values.price}
           onChangeText={handleChange('price')}
           onBlur={handleBlur('price')}
           keyboardType='numeric'
-          error={errors.price && touched.price}
-          success={touched.price && !errors.price}
+          status={touched.price ? errors.price ? 'danger' : 'success' : 'basic'}
+          caption={touched.price && errors.price}
+          accessoryRight={touched.price ? errors.price ? AlertIcon : SucessIcon : null}
+          style={styles.input}
         />
-        {errors.price && touched.price && <TextStyle color='error' fontSize='medium'>{errors.price}</TextStyle>}
-        <InputStyle
-          placeholder='Descripcion'
-          value={values.description}
-          onChangeText={handleChange('description')}
-          onBlur={handleBlur('description')}
-          error={errors.description && touched.description}
-          sucess={touched.description && !errors.description}
-        />
-        {errors.description && touched.description && <TextStyle color='error' fontSize='medium'>{errors.description}</TextStyle>}
-        <InputStyle
+        <Input
           placeholder='Cantidad'
           value={values.count}
           onChangeText={handleChange('count')}
           onBlur={handleBlur('count')}
           keyboardType='numeric'
-          error={errors.count && touched.count}
-          sucess={!errors.count && touched.count}
+          status={touched.count ? errors.count ? 'danger' : 'success' : 'basic'}
+          caption={touched.count && errors.count}
+          accessoryRight={touched.count ? errors.count ? AlertIcon : SucessIcon : null}
+          style={styles.input}
         />
-        <SelectImage setImage={setImage} />
-        {typeof (products) === 'string' ? <TextStyle>{products}</TextStyle> : <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
-        {errors.productId && touched.productId && <TextStyle color='error' fontSize='medium'>{errors.productId}</TextStyle>}
-        <CustonButton text='Crear' disabled={send} onPress={handleSubmit} />
-        <View>
-          {(charge > 0 && charge < 100) && <Text>Cargando...</Text>}
+        <View style={styles.selects}>
+          <SelectImage setImage={setImage} />
+          {typeof (products) === 'string' ? <Text>{products}</Text> : <DropDown values={values} onChange={setValues} items={products} title='Seleccione un producto' value='productId' />}
+          {errors.productId && touched.productId && <Text status='danger' category='s1'>{errors.productId}</Text>}
         </View>
-
-      </View>
-    </ScrollView>
-
+        <Input
+          multiline
+          textStyle={{ minHeight: 64 }}
+          placeholder='Descripcion'
+          value={values.description}
+          onChangeText={handleChange('description')}
+          onBlur={handleBlur('description')}
+          status={touched.description ? errors.description ? 'danger' : 'success' : 'basic'}
+          caption={touched.description && errors.description}
+          accessoryRight={touched.description ? errors.description ? AlertIcon : SucessIcon : null}
+          style={styles.input}
+        />
+        <Button
+          style={styles.button}
+          appearance='outline'
+          status='primary'
+          disabled={send}
+          onPress={handleSubmit}
+          accessoryLeft={send && LoadingIndicator}
+        >
+          {send ? 'Enviando...' : 'Enviar'}
+        </Button>
+      </ScrollView>
+    </View>
   )
 }
 
@@ -104,10 +140,23 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 20
+    paddingBottom: 20,
+    marginVertical: 20,
+    height: '100%',
+    paddingHorizontal: 15
   },
-  scroll: {
+  selects: {
+    flexDirection: 'row',
     width: '100%',
-    padding: 20
+    justifyContent: 'space-evenly',
+    paddingVertical: 10
+  },
+  input: {
+    width: '100%',
+    marginVertical: 10 //eslint-disable-line
+  },
+  button: {
+    width: '100%',
+    marginVertical: 10 //eslint-disable-line
   }
 })

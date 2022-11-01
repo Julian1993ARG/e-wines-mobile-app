@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import CustomButton from '../CustomButton/CustomButton'
+import { Button } from '@ui-kitten/components'
 
 export default function SelectImage ({ setImage }) {
   const [showImage, setShowImage] = useState(false) // para mostrar la imagen seleccionada
@@ -21,7 +21,7 @@ export default function SelectImage ({ setImage }) {
   }
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <CustomButton text='Seleccionar Imagen' onPress={pickImage} />
+      <Button onPress={pickImage}>Seleccionar Imagen</Button>
       {showImage && <Image source={{ uri: showImage }} style={{ width: 200, height: 200, marginVertical: 20 }} />}
     </View>
   )

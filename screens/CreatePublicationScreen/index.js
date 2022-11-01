@@ -1,18 +1,10 @@
-import { View, StyleSheet } from 'react-native'
 import CreatePubli from '../../src/components/CreatePubli'
+import { Layout } from '@ui-kitten/components'
 
 export default function CreatePublicationScreen () {
   return (
-    <View style={styles.root}>
+    <Layout style={{ flex: 1 }}>
       <CreatePubli />
-    </View>
+    </Layout>
   )
 }
-
-const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    alignContent: 'center',
-    fontSize: 24
-  }
-})
