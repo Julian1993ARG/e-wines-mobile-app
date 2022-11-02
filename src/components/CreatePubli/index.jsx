@@ -63,7 +63,7 @@ export default function CreatePubli () {
       setTimeout(() => {
         setSend(false)
         resetForm()
-        setImage({ uri: '', base64: '' }) // reseteo la imagen
+        setImage({ uri: '', base64: '' })
       }, 1000)
     }
   })

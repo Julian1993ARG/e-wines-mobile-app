@@ -7,6 +7,7 @@ import NewPasswordScreen from '../../screens/NewPasswordScreen/NewPasswordScreen
 import SignInScreen from '../../screens/SignInScreen/SignInScreen.js'
 import SignUpScreen from '../../screens/SignUpScreen/SignUpScreen.js'
 import CreatePublicationScreen from '../../screens/CreatePublicationScreen'
+import Cart from '../../screens/Cart/Cart.js'
 import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
@@ -21,9 +22,16 @@ const Tabs = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
+const CartStack = createStackNavigator()
 
 export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
+
+  const CartStackScreen = () => (
+    <CartStack.Navigator>
+      <CartStack.Screen name='Cart' component={Cart} />
+    </CartStack.Navigator>
+  )
 
   const HomeStackScreen = () => {
     return (
@@ -70,9 +78,8 @@ export default function Navigation () {
             component={ProfileStackScreen}
           />
           <Tabs.Screen
-            name='EVA'
-            options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
-            component={EvaPract}
+            name='Carrito'
+            component={CartStackScreen}
           />
            </Tabs.Navigator>) // eslint-disable-line
 

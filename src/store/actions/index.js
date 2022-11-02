@@ -108,3 +108,10 @@ export const removeCarrito = (id) => {
     payload: id
   }
 }
+
+export const setCarrito = (payload) => {
+  return {
+    type: 'SET_CARRITO',
+    payload
+  }
+}

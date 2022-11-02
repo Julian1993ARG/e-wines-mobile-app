@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
         style={styles.container}
         renderItem={({ item }) => (
           <Card
-            price={item.price} id={item.id} title={item.title} img={item.image} name={item.name} onPress={() => onPress(item)}
+            price={item.price} id={item.id} title={item.title} image={item.image} name={item.name} item={item} navigation={navigation} onPress={() => onPress(item)}
           />)}
       />
     </Layout>
