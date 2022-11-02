@@ -90,7 +90,7 @@ export const getVarietals = () => {
         payload: data
       })
     } catch (error) {
-
+      console.log(error.message)
     }
   }
 }
@@ -113,5 +113,17 @@ export const setCarrito = (payload) => {
   return {
     type: 'SET_CARRITO',
     payload
+  }
+}
+export const searchPublicationByName = (name) => {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios(`${urlApi}/publications?name=${name}`)
+      return dispatch(
+        { type: 'GET_PUBLICATIONS', payload: data }
+      )
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 }

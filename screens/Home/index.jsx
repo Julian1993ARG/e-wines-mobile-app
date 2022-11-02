@@ -5,9 +5,16 @@ import { getAllPublications, getAllProduct } from '../../src/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Layout, List } from '@ui-kitten/components'
 import Filter from '../../src/components/Filters/Filters'
+import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
+// import { useNavigation } from '@react-navigation/native'
+
+export const CartIcon = () => (
+  <MaterialComunityIcons name='cart' size={25} color='#fff' />
+)
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
+  // const navigations = useNavigation()
   const publications = useSelector(state => state.publications)
   useEffect(() => {
     dispatch(getAllPublications())
@@ -16,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
   const onPress = (publication) => {
     navigation.push('PublicationDetailScreen', { ...publication })
   }
+
   return (
 
     <Layout>
@@ -46,6 +54,13 @@ const styles = StyleSheet.create({
   scroll: {
     height: '100%',
     marginVertical: 15
+  },
+  iconButton: {
+    paddingHorizontal: 0,
+    width: 20,
+    height: 20,
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 

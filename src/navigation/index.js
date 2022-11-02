@@ -7,40 +7,49 @@ import NewPasswordScreen from '../../screens/NewPasswordScreen/NewPasswordScreen
 import SignInScreen from '../../screens/SignInScreen/SignInScreen.js'
 import SignUpScreen from '../../screens/SignUpScreen/SignUpScreen.js'
 import CreatePublicationScreen from '../../screens/CreatePublicationScreen'
-import Cart from '../../screens/Cart/Cart.js'
 import ProfileScreen from '../../screens/ProfileScreen'
 import HomeScreen from '../../screens/Home'
 import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect } from 'react'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
-import EvaPract from '../components/EvaPract'
-import { Text } from 'react-native'
+import { Text, Pressable, Image, Alert } from 'react-native' //eslint-disable-line
+import CartScreen from '../../screens/CartScreen/CartScreen.js'
+import { useDispatch } from 'react-redux'
+import { searchPublicationByName } from '../store/actions/index.js'
+import CartButton from '../components/CartButton/index.jsx'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
 const HomeStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
 const CreatePublicationStack = createStackNavigator()
-const CartStack = createStackNavigator()
 
 export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
+  const dispatch = useDispatch()
 
-  const CartStackScreen = () => (
-    <CartStack.Navigator>
-      <CartStack.Screen name='Cart' component={Cart} />
-    </CartStack.Navigator>
-  )
-
-  const HomeStackScreen = () => {
+  const HomeStackScreen = ({ navigation }) => {
+    const searchFilterFunction = (name) => {
+      dispatch(searchPublicationByName(name))
+    }
     return (
-      <HomeStack.Navigator screenOptions={({ navigation }) => ({
-        headerRight: () => <Text>Hola</Text>
-      })}
+      <HomeStack.Navigator screenOptions={{
+        headerLargeTitle: true,
+        headerTitle: 'Home',
+        headerTitleAlign: 'center',
+        headerRight: CartButton,
+        headerSearchBarOptions: {
+          placeholder: 'Buscar',
+          onChangeText: (e) => searchFilterFunction(e.nativeEvent.text)
+        }
+      }}
       >
-        <HomeStack.Screen name='Publicaciones' component={HomeScreen} />
+        <HomeStack.Screen
+          name='Publicaciones' component={HomeScreen}
+        />
         <HomeStack.Screen name='PublicationDetailScreen' component={PublicationDetailScreen} />
+        <HomeStack.Screen name='CartScreen' component={CartScreen} />
       </HomeStack.Navigator>
     )
   }
@@ -65,7 +74,9 @@ export default function Navigation () {
     <NavigationContainer>
       {
       loginState
-        ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
+        ? (<Tabs.Navigator
+            screenOptions={{ headerShown: false }}
+           >
           <Tabs.Screen name='Home' component={HomeStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='home' color={color} size={size} />) }} />
           <Tabs.Screen
             name='Crear Publicación'
@@ -76,10 +87,6 @@ export default function Navigation () {
             name='Perfil'
             options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
             component={ProfileStackScreen}
-          />
-          <Tabs.Screen
-            name='Carrito'
-            component={CartStackScreen}
           />
            </Tabs.Navigator>) // eslint-disable-line
 
