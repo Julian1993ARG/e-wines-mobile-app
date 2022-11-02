@@ -14,7 +14,10 @@ import { useEffect } from 'react'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
 import EvaPract from '../components/EvaPract'
-import { Text } from 'react-native'
+import { Text, Pressable, Image, Alert } from 'react-native' //eslint-disable-line
+import CartScreen from '../../screens/CartScreen/CartScreen.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { searchPublicationByName } from '../store/actions/index.js'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,15 +27,34 @@ const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
+  // const navigation = useNavigation()
+  const carrito = useSelector(state => state.carrito)
+  const dispatch = useDispatch()
 
-  const HomeStackScreen = () => {
+  const HomeStackScreen = ({ navigation }) => {
+    const searchFilterFunction = (name) => {
+      dispatch(searchPublicationByName(name))
+    }
     return (
-      <HomeStack.Navigator screenOptions={({ navigation }) => ({
-        headerRight: () => <Text>Hola</Text>
-      })}
+      <HomeStack.Navigator screenOptions={{
+        headerLargeTitle: true,
+        headerTitle: 'Home',
+        headerTitleAlign: 'center',
+        headerRight: () => (
+          <Pressable onPress={() => navigation.navigate('CartScreen')}><MaterialComunityIcons name='cart' />{carrito?.length}
+          </Pressable>
+        ),
+        headerSearchBarOptions: {
+          placeholder: 'Buscar',
+          onChangeText: (e) => searchFilterFunction(e.nativeEvent.text)
+        }
+      }}
       >
-        <HomeStack.Screen name='Publicaciones' component={HomeScreen} />
+        <HomeStack.Screen
+          name='Publicaciones' component={HomeScreen}
+        />
         <HomeStack.Screen name='PublicationDetailScreen' component={PublicationDetailScreen} />
+        <HomeStack.Screen name='CartScreen' component={CartScreen} />
       </HomeStack.Navigator>
     )
   }
@@ -57,7 +79,9 @@ export default function Navigation () {
     <NavigationContainer>
       {
       loginState
-        ? (<Tabs.Navigator screenOptions={{ headerShown: false }}>
+        ? (<Tabs.Navigator
+            screenOptions={{ headerShown: false }}
+           >
           <Tabs.Screen name='Home' component={HomeStackScreen} options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='home' color={color} size={size} />) }} />
           <Tabs.Screen
             name='Crear Publicación'

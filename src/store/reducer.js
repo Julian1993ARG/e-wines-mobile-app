@@ -38,7 +38,8 @@ export default function reducer (state = initialState, action) {
     case 'ADD_CARRITO':
       return {
         ...state,
-        carrito: [...state.carrito.find(item => item.id === action.payload.id) ? state.carrito.map(item => item.id === action.payload.id && { ...item, cant: item.cant + 1 }) : [...state.carrito, action.payload]] // eslint-disable-line
+        // carrito: [...state.carrito.find(item => item.id === action.payload.id) ? state.carrito.map(item => item.id === action.payload.id && { ...item, cant: item.cant + 1 }) : [...state.carrito, action.payload]] // eslint-disable-line
+        carrito: [...state.carrito, action.payload]
       }
     case 'REMOVE_CARRITO':
       return { ...state, carrito: state.carrito.filter(item => item.id !== action.payload) }

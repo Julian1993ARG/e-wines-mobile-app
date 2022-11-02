@@ -2,6 +2,8 @@ import React from 'react'
 import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native'//eslint-disable-line
 import { Text, Button, Card } from '@ui-kitten/components'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
+import { useDispatch } from 'react-redux'
+import { addCarrito } from '../../store/actions'
 
 export const CartIcon = () => (
   <MaterialComunityIcons name='cart' size={25} color='#fff' />
@@ -13,23 +15,25 @@ const Header = ({ img }) => (
   </View>
 )
 
-const Footer = ({ price }) => (
+const Footer = ({ price, onPress }) => (
   <View style={styles.itemFooter}>
     <Text category='s1'>$ {price}</Text>
     <Button
       style={styles.iconButton}
       size='small'
       accessoryLeft={CartIcon}
-      onPress={() => console.log('Add to cart')}
+      onPress={onPress}
     />
   </View>
 )
 
 const CardHome = ({ img, title, price, id, onPress, name }) => {
+  const dispatch = useDispatch()
+  const addToCarrito = () => dispatch(addCarrito({ img, title, price, id, name }))
   return (
     <Card
       header={() => <Header img={img} />}
-      footer={() => <Footer price={price} />}
+      footer={() => <Footer price={price} onPress={addToCarrito} />}
       onPress={onPress}
       style={styles.card}
     >
