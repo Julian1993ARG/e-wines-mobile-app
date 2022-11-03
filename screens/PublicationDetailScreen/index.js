@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import { addCarrito } from '../../src/store/actions'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { View, ImageBackground, ScrollView } from 'react-native'
 import {
   Button,
@@ -14,7 +14,6 @@ import {
 
 export default function PublicationDetailScreen ({ route }) {
   const dispatch = useDispatch()
-  const carrito = useSelector(state => state.carrito)
   const { title, name, price, count, image, cellar, origin, varietal, description, id } = route.params // eslint-disable-line
   const [comment, setComment] = useState()
   const styles = useStyleSheet(themedStyles)
@@ -23,7 +22,7 @@ export default function PublicationDetailScreen ({ route }) {
 
   }
   const onAddButtonPress = () => {
-    dispatch(addCarrito({ id, title, name, price, count, image, cellar, origin, varietal, description, comment, cant:1 })) // eslint-disable-line
+    dispatch(addCarrito({ id, title, name, price, count, image, cellar, origin, varietal, description, cant:1 })) // eslint-disable-line
   }
 
   return (

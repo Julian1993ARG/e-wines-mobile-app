@@ -13,7 +13,6 @@ import PublicationDetailScreen from '../../screens/PublicationDetailScreen'
 import { useEffect } from 'react'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
-import EvaPract from '../components/EvaPract'
 import { Text, Pressable, Image, Alert } from 'react-native' //eslint-disable-line
 import CartScreen from '../../screens/CartScreen/CartScreen.js'
 import { useSelector } from 'react-redux'
@@ -83,11 +82,6 @@ export default function Navigation () {
             name='Perfil'
             options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
             component={ProfileStackScreen}
-          />
-          <Tabs.Screen
-            name='EVA'
-            options={{ tabBarIcon: ({ color, size }) => (<MaterialComunityIcons name='person' color={color} size={size} />) }}
-            component={EvaPract}
           />
            </Tabs.Navigator>) // eslint-disable-line
 

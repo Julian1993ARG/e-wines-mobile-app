@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
   }
   return (
 
-    <Layout>
+    <Layout style={styles.container}>
       <Searchbar
         placeholder='Search'
         onChangeText={onChangeSearch}
@@ -47,10 +47,10 @@ const HomeScreen = ({ navigation }) => {
       <List
         data={publications && publications}
         numColumns={2}
-        style={styles.container}
+        style={styles.list}
         renderItem={({ item }) => (
           <Card
-            price={item.price} id={item.id} title={item.title} img={item.image} name={item.name} onPress={() => onPress(item)}
+            price={item.price} id={item.id} title={item.title} image={item.image} name={item.name} item={item} navigation={navigation} onPress={() => onPress(item)}
           />)}
       />
     </Layout>
@@ -60,6 +60,10 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    marginBottom: 10
+  },
+  list: {
     paddingHorizontal: 8,
     paddingVertical: 16
   },

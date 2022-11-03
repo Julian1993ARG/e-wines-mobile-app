@@ -109,6 +109,12 @@ export const removeCarrito = (id) => {
   }
 }
 
+export const setCarrito = (payload) => {
+  return {
+    type: 'SET_CARRITO',
+    payload
+  }
+}
 export const searchPublicationByName = (name) => {
   return async function (dispatch) {
     try {
