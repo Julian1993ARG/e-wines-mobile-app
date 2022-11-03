@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import Card from '../../src/components/Card'
-import { getAllPublications, getAllProduct } from '../../src/store/actions'
+import { getAllPublications, getAllProduct, searchPublicationByName } from '../../src/store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { Layout, List } from '@ui-kitten/components'
 import Filter from '../../src/components/Filters/Filters'
 import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
+import { Searchbar } from 'react-native-paper'
 // import { useNavigation } from '@react-navigation/native'
 
 export const CartIcon = () => (
@@ -13,6 +14,7 @@ export const CartIcon = () => (
 )
 
 const HomeScreen = ({ navigation }) => {
+  const [searchQuery, setSearchQuery] = React.useState('')
   const dispatch = useDispatch()
   // const navigations = useNavigation()
   const publications = useSelector(state => state.publications)
@@ -23,10 +25,24 @@ const HomeScreen = ({ navigation }) => {
   const onPress = (publication) => {
     navigation.push('PublicationDetailScreen', { ...publication })
   }
-
+  const searchFilterFunction = (search) => {
+    console.log('entre')
+    dispatch(searchPublicationByName(search))
+    console.log('despache')
+  }
+  const onChangeSearch = query => {
+    console.log(searchQuery)
+    setSearchQuery(query)
+  }
   return (
 
     <Layout style={styles.container}>
+      <Searchbar
+        placeholder='Search'
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        onIconPress={() => searchFilterFunction(searchQuery)}
+      />
       <Filter />
       <List
         data={publications && publications}

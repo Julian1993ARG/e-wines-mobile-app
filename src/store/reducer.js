@@ -47,6 +47,8 @@ export default function reducer (state = initialState, action) {
       }
     case 'REMOVE_CARRITO':
       return { ...state, carrito: state.carrito.filter(item => item.id !== action.payload) }
+    case 'SEARCH_PUBLICATIONS':
+      return { ...state, publications: action.payload }
     default:
       return { ...state }
   }

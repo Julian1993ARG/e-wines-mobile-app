@@ -15,9 +15,7 @@ import MaterialComunityIcons from 'react-native-vector-icons/Ionicons'
 import { useLogin } from '../utils/hooks'
 import { Text, Pressable, Image, Alert } from 'react-native' //eslint-disable-line
 import CartScreen from '../../screens/CartScreen/CartScreen.js'
-import { useDispatch } from 'react-redux'
-import { searchPublicationByName } from '../store/actions/index.js'
-import CartButton from '../components/CartButton/index.jsx'
+import { useSelector } from 'react-redux'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -27,22 +25,19 @@ const CreatePublicationStack = createStackNavigator()
 
 export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
-  const dispatch = useDispatch()
+  // const navigation = useNavigation()
+  const carrito = useSelector(state => state.carrito)
 
   const HomeStackScreen = ({ navigation }) => {
-    const searchFilterFunction = (name) => {
-      dispatch(searchPublicationByName(name))
-    }
     return (
       <HomeStack.Navigator screenOptions={{
         headerLargeTitle: true,
         headerTitle: 'Home',
         headerTitleAlign: 'center',
-        headerRight: CartButton,
-        headerSearchBarOptions: {
-          placeholder: 'Buscar',
-          onChangeText: (e) => searchFilterFunction(e.nativeEvent.text)
-        }
+        headerRight: () => (
+          <Pressable onPress={() => navigation.navigate('CartScreen')}><MaterialComunityIcons name='cart' />{carrito?.length}
+          </Pressable>
+        )
       }}
       >
         <HomeStack.Screen
