@@ -26,12 +26,12 @@ const HomeScreen = ({ navigation }) => {
 
   return (
 
-    <Layout>
+    <Layout style={styles.container}>
       <Filter />
       <List
         data={publications && publications}
         numColumns={2}
-        style={styles.container}
+        style={styles.list}
         renderItem={({ item }) => (
           <Card
             price={item.price} id={item.id} title={item.title} image={item.image} name={item.name} item={item} navigation={navigation} onPress={() => onPress(item)}
@@ -44,6 +44,10 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    marginBottom: 10
+  },
+  list: {
     paddingHorizontal: 8,
     paddingVertical: 16
   },

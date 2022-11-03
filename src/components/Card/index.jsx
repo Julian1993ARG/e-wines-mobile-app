@@ -27,7 +27,7 @@ const Footer = ({ data, navigation }) => {
         accessoryLeft={CartIcon}
         onPress={() => {
           dispatch(addCarrito({ title, name, price, count, image, cellar, origin, varietal, description, id, cant: 1 }))
-          navigation.navigate('Carrito')
+          navigation.navigate('CartScreen')
         }}
       />
     </View>

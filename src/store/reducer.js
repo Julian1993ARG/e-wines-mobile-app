@@ -43,7 +43,7 @@ export default function reducer (state = initialState, action) {
     case 'SET_CARRITO':
       return {
         ...state,
-        carrito: [...state.carrito.map((item) => item.id === action.payload.id ? { ...item, cant: action.payload } : item)]
+        carrito: [...state.carrito.map((item) => item.id === action.payload.id ? { ...item, cant: action.payload.cant } : item)]
       }
     case 'REMOVE_CARRITO':
       return { ...state, carrito: state.carrito.filter(item => item.id !== action.payload) }
