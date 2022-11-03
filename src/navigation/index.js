@@ -16,8 +16,7 @@ import { useLogin } from '../utils/hooks'
 import EvaPract from '../components/EvaPract'
 import { Text, Pressable, Image, Alert } from 'react-native' //eslint-disable-line
 import CartScreen from '../../screens/CartScreen/CartScreen.js'
-import { useDispatch, useSelector } from 'react-redux'
-import { searchPublicationByName } from '../store/actions/index.js'
+import { useSelector } from 'react-redux'
 
 const AuthStack = createStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -29,12 +28,8 @@ export default function Navigation () {
   const { loginState, checkLogin } = useLogin()
   // const navigation = useNavigation()
   const carrito = useSelector(state => state.carrito)
-  const dispatch = useDispatch()
 
   const HomeStackScreen = ({ navigation }) => {
-    const searchFilterFunction = (name) => {
-      dispatch(searchPublicationByName(name))
-    }
     return (
       <HomeStack.Navigator screenOptions={{
         headerLargeTitle: true,
@@ -43,11 +38,7 @@ export default function Navigation () {
         headerRight: () => (
           <Pressable onPress={() => navigation.navigate('CartScreen')}><MaterialComunityIcons name='cart' />{carrito?.length}
           </Pressable>
-        ),
-        headerSearchBarOptions: {
-          placeholder: 'Buscar',
-          onChangeText: (e) => searchFilterFunction(e.nativeEvent.text)
-        }
+        )
       }}
       >
         <HomeStack.Screen

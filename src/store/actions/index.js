@@ -113,8 +113,9 @@ export const searchPublicationByName = (name) => {
   return async function (dispatch) {
     try {
       const { data } = await axios(`${urlApi}/publications?name=${name}`)
+      console.log(data)
       return dispatch(
-        { type: 'GET_PUBLICATIONS', payload: data }
+        { type: 'SEARCH_PUBLICATIONS', payload: data }
       )
     } catch (error) {
       console.log(error.message)
